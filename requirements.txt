@@ -33,7 +33,6 @@ PyJWT==1.7.1
 pylint==2.6.0
 PyMsgBox==1.0.8
 pymssql==2.1.5
-pyodbc==4.0.30
 pyparsing==2.4.7
 pyperclip==1.8.0
 PyRect==0.1.4

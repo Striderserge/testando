@@ -1,1 +1,1 @@
-web gunicorn --pythonpath com/faculdadeimpacta/Routes:app
+web gunicorn --pythonpath com/faculdadeimpacta/app_web_start:app

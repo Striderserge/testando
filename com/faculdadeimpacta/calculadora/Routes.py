@@ -7,6 +7,7 @@ class User_Error(Exception):
     pass
 
 app = Flask(__name__)
+'''
 #sequencia json - userId,name,email,cpf,rg,phone,address,birth,gender
 @app.route('/patient/create', methods=['POST'])
 def new_patient():
@@ -60,7 +61,7 @@ def appointment_by_user():
         return jsonify(result), 200
     except Exception:
         return jsonify(status=500),500
-        
+'''        
 @app.route('/')
 def index():
     return 'Por favor nunca te pedi nada, funcione!'

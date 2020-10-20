@@ -2,11 +2,13 @@ from flask import Flask, jsonify, request, redirect
 import requests, json
 import database_commands
 import mailing_system
+from flask_cors import CORS
 
 class User_Error(Exception):
     pass
 
 app = Flask(__name__)
+CORS(app)
 #sequencia json - userId,name,email,cpf,rg,phone,address,birth,gender
 @app.route('/patient/create', methods=['POST'])
 def new_patient():

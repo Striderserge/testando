@@ -92,6 +92,7 @@ def login():
 @app.route('/login', methods=['GET'])
 def Verify_Login():
     try:
+        status = {}
         user = request.json
         email = user['email']
         senha = user['senha']

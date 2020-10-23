@@ -136,3 +136,44 @@ def Appointment_by_Id(userId):
     return appointment_list
 
 
+def Check_Login(email,senha):
+    connection = Connection_String()
+    cursor = connection.cursor()
+    sql = "SELECT user_id FROM usuario WHERE email = %s and password = %s"
+    cursor.execute(sql, (email,senha))
+    test = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    if test != None: 
+        return False
+    return True
+
+
+def Create_Login(email,senha):
+    status = {}
+    try:
+        connection = Connection_String()
+        cursor = connection.cursor()
+        sql = "INSERT INTO usuario(email, password) VALUES(%s, %s)"
+        cursor.execute(sql,(email, senha))
+        connection.commit()
+        status['status'] = 0
+    except Exception:
+        connection.rollback()
+        status['status'] = 400
+    finally:
+        cursor.close()
+        connection.close()
+        return status
+
+def Get_Login(email,senha):
+    connection = Connection_String()
+    cursor = connection.cursor()
+    sql = "SELECT user_id FROM usuario WHERE email = %s and password = %s"
+    cursor.execute(sql, (email,senha))
+    test = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    return test
+
+

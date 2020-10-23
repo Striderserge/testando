@@ -47,7 +47,6 @@ def exam_create():
     try:
         exam = request.json
         database_commands.Create_Exam(exam)
-        print(exam)
         mailing_system.Send_Email(exam)
         return jsonify(status = 0), 200
     except Exception:
@@ -66,6 +65,47 @@ def appointment_by_user():
 @app.route('/')
 def index():
     return 'Index Page!'
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    try:
+        user = request.json
+        email = user['email']
+        senha = user['senha']
+        check = database_commands.Check_Login(email,senha)
+        if check == False:
+            raise User_Error
+        status= database_commands.Create_Login(email,senha)     
+        if status['status'] == 400:
+            return jsonify(status),400
+        else:
+            user_id = database_commands.Get_Login(email,senha)
+            status['userId'] = user_id
+            return jsonify(status),200
+    except User_Error:
+        return jsonify(status = 400),400
+    except Exception:
+        return jsonify(status=500),500
+
+
+@app.route('/login', methods=['GET'])
+def Verify_Login():
+    try:
+        user = request.json
+        email = user['email']
+        senha = user['senha']
+        check = database_commands.Check_Login(email,senha)
+        if check == False:
+            raise User_Error
+        else:
+            user_id = database_commands.Get_Login(email,senha)
+            status['userId'] = user_id
+            return jsonify(status),200
+    except User_Error:
+        return jsonify(status = 400),400
+    except Exception:
+        return jsonify(status=500),500
 
 #Alterar para a conexão com servidor.
 if __name__ == '__main__':

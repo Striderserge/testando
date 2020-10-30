@@ -4,10 +4,10 @@ import mysql.connector
 
 def Connection_String():
     connection = mysql.connector.connect(
-    host = "127.0.0.1",
-    user = "root",
-    password = "1234",
-    database = "sergio"
+    host = "boqd43jjdhnntmzjlj1a-mysql.services.clever-cloud.com",
+    user = "upecywjre2o1y8c7",
+    password = "FGqNH0hsA0RvMzj519p0",
+    database = "boqd43jjdhnntmzjlj1a"
     )
     return connection
 
@@ -32,8 +32,8 @@ def Create_User(dados):
     try:
         connection = Connection_String()
         cursor = connection.cursor()
-        sql = "INSERT INTO paciente(user_id, name, email, cpf, rg, phone, address, birth, gender) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        cursor.execute(sql,(int(dados['userId']), str(dados['name']), str(dados['email']), int(dados['cpf']), str(dados['rg']), str(dados['phone']), str(dados['address']), str(dados['birth']), str(dados['gender'])))
+        sql = "INSERT INTO tb_paciente(id_usuario, nome_paciente, email_paciente, cpf_paciente, rg_paciente, telefone_paciente, endereco_paciente, dt_nascimento, sexo_paciente) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cursor.execute(sql,(int(dados['id_usuario']), str(dados['nome_paciente']), str(dados['email_paciente']), int(dados['cpf_paciente']), str(dados['rg_paciente']), str(dados['telefone_paciente']), str(dados['endereco_paciente']), str(dados['dt_nascimento']), str(dados['sexo_paciente'])))
         connection.commit()
         status['status'] = 0
     except Exception:
@@ -47,7 +47,7 @@ def Create_User(dados):
 def Verify_User(cpf,id):
     connection = Connection_String()
     cursor = connection.cursor()
-    sql = "SELECT cpf FROM paciente WHERE cpf = %s and user_id = %s"
+    sql = "SELECT cpf_paciente FROM tb_paciente WHERE cpf_paciente = %s and id_usuario = %s"
     cursor.execute(sql, (cpf,id))
     test = cursor.fetchone()
     cursor.close()
@@ -59,7 +59,7 @@ def Verify_User(cpf,id):
 def Pacient_List(id):
     connection = Connection_String()
     cursor = connection.cursor()
-    sql = "SELECT id,name,cpf from paciente where user_id = %s"
+    sql = "SELECT id_paciente,nome_paciente,cpf_paciente from tb_paciente where id_usuario = %s"
     cursor.execute(sql,(id,))
     rows = cursor.fetchall()
     pacient_list = rows_to_dict(cursor.description, rows)
@@ -70,7 +70,7 @@ def Pacient_List(id):
 def Exam_List():
     connection = Connection_String()
     cursor = connection.cursor()
-    sql = "SELECT id, name FROM exame"
+    sql = "SELECT id_exame, nome_exame FROM tb_exame"
     cursor.execute(sql,())
     rows = cursor.fetchall()
     exam_list = rows_to_dict(cursor.description, rows)
@@ -82,8 +82,8 @@ def Exam_List():
 def Create_Exam(exam):
     connection = Connection_String()
     cursor = connection.cursor()
-    sql = 'INSERT INTO agendamento(data_agendamento, exam_id, patient_id, user_id) VALUES (%s, %s, %s, %s)'
-    cursor.execute(sql,(exam['date'], exam['examId'], exam['patientId'], exam['userId']))
+    sql = 'INSERT INTO tb_agendamento(dt_agendamento, id_exame, id_paciente, id_usuario) VALUES (%s, %s, %s, %s)'
+    cursor.execute(sql,(exam['dt_agendamento'], exam['id_exame'], exam['id_paciente'], exam['id_usuario']))
     connection.commit()
     cursor.close()
     connection.close()
@@ -94,18 +94,18 @@ def Mail_Select(exam):
     
     cursor = connection.cursor()
     sql = """SELECT 
-	            ag.id, 
-	            ex.name as exname, 
-	            ag.data_agendamento, 
-	            pt.name, 
-                pt.email 
+	            ag.id_agendamento, 
+	            ex.nome_exame, 
+	            ag.dt_agendamento, 
+	            pt.nome_paciente, 
+                pt.email_paciente 
             FROM  
-	            agendamento AS ag INNER JOIN 
-	            exame AS ex ON ag.exam_id = ex.id INNER JOIN 
-	            paciente AS pt ON ag.patient_id = pt.id 
+	            tb_agendamento AS ag INNER JOIN 
+	            tb_exame AS ex ON ag.id_exame = ex.id_exame INNER JOIN 
+	            tb_paciente AS pt ON ag.id_paciente = pt.id_paciente 
             WHERE 
-	            ag.id = (SELECT MAX(id) FROM agendamento WHERE user_id = %s);"""
-    cursor.execute(sql,(exam['userId'],))
+	            ag.id_agendamento = (SELECT MAX(id_agendamento) FROM tb_agendamento WHERE id_usuario = %s);"""
+    cursor.execute(sql,(exam['id_usuario'],))
     row = cursor.fetchone()
     cursor.close()
     connection.close()
@@ -117,16 +117,16 @@ def Appointment_by_Id(userId):
     cursor = connection.cursor()
     sql = """
         SELECT 
-	            ag.id, 
-	            ex.name as exname, 
-	            ag.data_agendamento, 
-	            pt.name
+	            ag.id_agendamento, 
+	            ex.nome_exame, 
+	            ag.dt_agendamento, 
+	            pt.nome_paciente
             FROM  
 	            agendamento AS ag INNER JOIN 
-	            exame AS ex ON ag.exam_id = ex.id INNER JOIN 
-	            paciente AS pt ON ag.patient_id = pt.id 
+	            exame AS ex ON ag.id_exame = ex.id_exame INNER JOIN 
+	            paciente AS pt ON ag.id_paciente = pt.id_paciente 
             WHERE 
-	            ag.user_id = %s;
+	            ag.id_usuario = %s;
         """
     cursor.execute(sql,(userId,))
     rows = cursor.fetchall()
@@ -139,7 +139,7 @@ def Appointment_by_Id(userId):
 def Check_Login(email,senha):
     connection = Connection_String()
     cursor = connection.cursor()
-    sql = "SELECT user_id FROM usuario WHERE email = %s and password = %s"
+    sql = "SELECT id_usuario FROM tb_usuario WHERE email_usuario = %s and senha_usuario = %s"
     cursor.execute(sql, (email,senha))
     test = cursor.fetchone()
     cursor.close()
@@ -154,7 +154,7 @@ def Create_Login(email,senha):
     try:
         connection = Connection_String()
         cursor = connection.cursor()
-        sql = "INSERT INTO usuario(email, password) VALUES(%s, %s)"
+        sql = "INSERT INTO tb_usuario(email_usuario, senha_usuario) VALUES(%s, %s)"
         cursor.execute(sql,(email, senha))
         connection.commit()
         status['status'] = 0
@@ -169,11 +169,19 @@ def Create_Login(email,senha):
 def Get_Login(email,senha):
     connection = Connection_String()
     cursor = connection.cursor()
-    sql = "SELECT user_id FROM usuario WHERE email = %s and password = %s"
+    sql = "SELECT id_usuario FROM tb_usuario WHERE email_usuario = %s and senha_usuario = %s"
     cursor.execute(sql, (email,senha))
     test = cursor.fetchone()
     cursor.close()
     connection.close()
     return test
 
+def exam_test():
+    connection = Connection_String()
+    cursor = connection.cursor()
+    sql = 'INSERT INTO tb_exame(nome_exame) VALUES (%s)'
+    cursor.execute(sql,('exameteste2',))
+    connection.commit()
+    cursor.close()
+    connection.close()
 

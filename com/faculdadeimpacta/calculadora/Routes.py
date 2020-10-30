@@ -14,9 +14,9 @@ CORS(app)
 def new_patient():
     try:
         new_pacient = request.json
-        cpf = int(new_pacient['cpf'])
+        cpf = int(new_pacient['cpf_paciente'])
         #if new_pacient['cpf'] == 387: #-- apenas para teste offline
-        check = database_commands.Verify_User(cpf,int(new_pacient['userId']))
+        check = database_commands.Verify_User(cpf,int(new_pacient['id_usuario']))
         if check == True:
             raise User_Error
         status= database_commands.Create_User(new_pacient)     
@@ -34,9 +34,9 @@ def new_patient():
 def exam_list():
     try:
         result = {}
-        user_id = request.json['userId']
-        result['pacient'] = database_commands.Pacient_List(user_id)
-        result['exam'] = database_commands.Exam_List()
+        user_id = request.json['id_usuario']
+        result['pacientes'] = database_commands.Pacient_List(user_id)
+        result['exames'] = database_commands.Exam_List()
         return jsonify(result), 200
     except Exception:
         return jsonify(status=500),500
@@ -56,7 +56,7 @@ def exam_create():
 @app.route('/exam', methods=['GET'])
 def appointment_by_user():
     try:
-        user_id = request.json['userId']
+        user_id = request.json['id_usuario']
         result = database_commands.Appointment_by_Id(user_id)
         return jsonify(result), 200
     except Exception:
@@ -71,8 +71,8 @@ def index():
 def login():
     try:
         user = request.json
-        email = user['email']
-        senha = user['senha']
+        email = user['email_usuario']
+        senha = user['senha_usuario']
         check = database_commands.Check_Login(email,senha)
         if check == False:
             raise User_Error
@@ -81,7 +81,7 @@ def login():
             return jsonify(status),400
         else:
             user_id = database_commands.Get_Login(email,senha)
-            status['userId'] = user_id
+            status['id_usuario'] = user_id
             return jsonify(status),200
     except User_Error:
         return jsonify(status = 400),400
@@ -94,14 +94,14 @@ def Verify_Login():
     try:
         status = {}
         user = request.json
-        email = user['email']
-        senha = user['senha']
+        email = user['email_usuario']
+        senha = user['senha_usuario']
         check = database_commands.Check_Login(email,senha)
         if check == False:
             raise User_Error
         else:
             user_id = database_commands.Get_Login(email,senha)
-            status['userId'] = user_id
+            status['id_usuario'] = user_id
             return jsonify(status),200
     except User_Error:
         return jsonify(status = 400),400

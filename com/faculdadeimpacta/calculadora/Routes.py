@@ -64,7 +64,8 @@ def appointment_by_user():
         
 @app.route('/')
 def index():
-    return 'Index Page!'
+    result= database_commands.Exam_List()
+    return jsonify(result)
 
 
 @app.route('/login', methods=['POST'])

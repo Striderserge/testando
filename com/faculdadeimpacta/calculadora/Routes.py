@@ -92,22 +92,22 @@ def login():
 
 @app.route('/login', methods=['GET'])
 def Verify_Login():
-    try:
-        status = {}
-        user = request.json
-        email = user['email_usuario']
-        senha = user['senha_usuario']
-        check = database_commands.Check_Login(email,senha)
-        if check == False:
-            raise User_Error
-        else:
-            user_id = database_commands.Get_Login(email,senha)
-            status['id_usuario'] = user_id
-            return jsonify(status),200
-    except User_Error:
+    #try:
+    status = {}
+    user = request.json
+    email = user['email_usuario']
+    senha = user['senha_usuario']
+    check = database_commands.Check_Login(email,senha)
+        #if check == False:
+            #raise User_Error
+        #else:
+    user_id = database_commands.Get_Login(email,senha)
+    status['id_usuario'] = user_id
+    return jsonify(status),200
+    '''except User_Error:
         return jsonify(status = 400),400
     except Exception:
-        return jsonify(status=500),500
+        return jsonify(status=500),500'''
 
 #Alterar para a conexão com servidor.
 if __name__ == '__main__':

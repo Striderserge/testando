@@ -75,7 +75,7 @@ def login():
         email = user['email_usuario']
         senha = user['senha_usuario']
         check = database_commands.Check_Login(email,senha)
-        if check == False:
+        if check == True:
             raise User_Error
         status= database_commands.Create_Login(email,senha)     
         if status['status'] == 400:

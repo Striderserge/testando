@@ -110,7 +110,7 @@ def Verify_Login():
         return jsonify(status=500),500'''
 
 @app.route('/login/teste', methods=['POST'])
-def Verify_Login():
+def Verify_Login1():
     #try:
     status = {}
     user = request.json

@@ -122,9 +122,9 @@ def Appointment_by_Id(userId):
 	            ag.dt_agendamento, 
 	            pt.nome_paciente
             FROM  
-	            agendamento AS ag INNER JOIN 
-	            exame AS ex ON ag.id_exame = ex.id_exame INNER JOIN 
-	            paciente AS pt ON ag.id_paciente = pt.id_paciente 
+	            tb_agendamento AS ag INNER JOIN 
+	            tb_exame AS ex ON ag.id_exame = ex.id_exame INNER JOIN 
+	            tb_paciente AS pt ON ag.id_paciente = pt.id_paciente 
             WHERE 
 	            ag.id_usuario = %s;
         """

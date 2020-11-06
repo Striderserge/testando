@@ -34,7 +34,7 @@ def new_patient():
 def exam_list():
     try:
         result = {}
-        user_id = request.json['id_usuario']
+        user_id = request.args['id_usuario']
         result['pacientes'] = database_commands.Pacient_List(user_id)
         result['exames'] = database_commands.Exam_List()
         return jsonify(result), 200
@@ -56,7 +56,7 @@ def exam_create():
 @app.route('/exam', methods=['GET'])
 def appointment_by_user():
     try:
-        user_id = request.json['id_usuario']
+        user_id = request.args['id_usuario']
         result = database_commands.Appointment_by_Id(user_id)
         return jsonify(result), 200
     except Exception:

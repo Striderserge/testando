@@ -30,12 +30,13 @@ def new_patient():
         return jsonify(status=500),500
 
 
-@app.route('/exam/create<id>', methods=['GET'])
+@app.route('/exam/create/<id>', methods=['GET'])
 def exam_list(id):
     try:
         result = {}
+        teste = int(id)
         #user_id = request.json['id_usuario']
-        result['pacientes'] = database_commands.Pacient_List(int(id))
+        result['pacientes'] = database_commands.Pacient_List(teste)
         result['exames'] = database_commands.Exam_List()
         return jsonify(result), 200
     except Exception:

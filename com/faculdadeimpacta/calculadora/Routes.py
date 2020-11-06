@@ -30,7 +30,7 @@ def new_patient():
         return jsonify(status=500),500
 
 
-@app.route('/exam/create<int: id>', methods=['GET'])
+@app.route('/exam/create<int:id>', methods=['GET'])
 def exam_list(id):
     try:
         result = {}

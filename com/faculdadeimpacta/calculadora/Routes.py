@@ -34,7 +34,7 @@ def new_patient():
 def exam_list():
     try:
         result = {}
-        user_id = request.args['id_usuario']
+        user_id = request.json['id_usuario']
         result['pacientes'] = database_commands.Pacient_List(user_id)
         result['exames'] = database_commands.Exam_List()
         return jsonify(result), 200

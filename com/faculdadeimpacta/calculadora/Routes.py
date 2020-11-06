@@ -34,9 +34,9 @@ def new_patient():
 def exam_list(id):
     try:
         result = {}
-        teste = int(id)
+        user_id = int(id)
         #user_id = request.json['id_usuario']
-        result['pacientes'] = database_commands.Pacient_List(teste)
+        result['pacientes'] = database_commands.Pacient_List(user_id)
         result['exames'] = database_commands.Exam_List()
         return jsonify(result), 200
     except Exception:
@@ -54,10 +54,11 @@ def exam_create():
         return jsonify(status=500),500
 
 
-@app.route('/exam', methods=['GET'])
-def appointment_by_user():
+@app.route('/exam/<id>', methods=['GET'])
+def appointment_by_user(id):
     try:
-        user_id = request.args['id_usuario']
+        user_id = int(id)
+        #user_id = request.args['id_usuario']
         result = database_commands.Appointment_by_Id(user_id)
         return jsonify(result), 200
     except Exception:
@@ -93,41 +94,41 @@ def login():
 
 @app.route('/login', methods=['GET'])
 def Verify_Login():
-    #try:
-    status = {}
-    user = request.json
-    email = user['email_usuario']
-    senha = user['senha_usuario']
-    check = database_commands.Check_Login(email,senha)
-        #if check == False:
-            #raise User_Error
-        #else:
-    user_id = database_commands.Get_Login(email,senha)
-    status['id_usuario'] = user_id
-    return jsonify(status),200
-    '''except User_Error:
+    try:
+        status = {}
+        user = request.json
+        email = user['email_usuario']
+        senha = user['senha_usuario']
+        check = database_commands.Check_Login(email,senha)
+        if check == False:
+            raise User_Error
+        else:
+            user_id = database_commands.Get_Login(email,senha)
+            status['id_usuario'] = user_id
+            return jsonify(status),200
+    except User_Error:
         return jsonify(status = 400),400
     except Exception:
-        return jsonify(status=500),500'''
+        return jsonify(status=500),500
 
 @app.route('/login/teste', methods=['POST'])
 def Verify_Login1():
-    #try:
-    status = {}
-    user = request.json
-    email = user['email_usuario']
-    senha = user['senha_usuario']
-    check = database_commands.Check_Login(email,senha)
-        #if check == False:
-            #raise User_Error
-        #else:
-    user_id = database_commands.Get_Login(email,senha)
-    status['id_usuario'] = user_id
-    return jsonify(status),200
-    '''except User_Error:
+    try:
+        status = {}
+        user = request.json
+        email = user['email_usuario']
+        senha = user['senha_usuario']
+        check = database_commands.Check_Login(email,senha)
+        if check == False:
+            raise User_Error
+        else:
+            user_id = database_commands.Get_Login(email,senha)
+            status['id_usuario'] = user_id
+            return jsonify(status),200
+    except User_Error:
         return jsonify(status = 400),400
     except Exception:
-        return jsonify(status=500),500'''
+        return jsonify(status=500),500
 
 #Alterar para a conexão com servidor.
 if __name__ == '__main__':

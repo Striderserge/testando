@@ -12,7 +12,7 @@ def Send_Email(exam):
     data = database_commands.Mail_Select(exam)
     sender_address = 'teste.bild@outlook.com'
     sender_pass = 'Bild2507'
-    receiver_address = [str(data[4]),sender_address]
+    receiver_address = str(data[4])
     mail_content = '''Paciente : {}
     Data pré-agendada : {}
     Exame : {}
@@ -24,7 +24,7 @@ def Send_Email(exam):
     #The body and the attachments for the mail
     message.attach(MIMEText(mail_content, 'plain'))
     try:
-        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session = smtplib.SMTP('smtp.office365.com', 587)
         session.starttls() 
         session.login(sender_address, sender_pass) 
         text = message.as_string()

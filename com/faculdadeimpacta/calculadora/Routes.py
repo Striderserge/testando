@@ -29,6 +29,19 @@ def new_patient():
     except Exception:
         return jsonify(status=500),500
 
+@app.route('/patient/create', methods=['PUT'])
+def update_patient():
+    try:
+        update_pacient = request.json
+        #if new_pacient['cpf'] == 387: #-- apenas para teste offline
+        status= database_commands.Update_User(update_pacient)     
+        if status['status'] == 400:
+            return jsonify(status),400
+        else:
+            return jsonify(status),200
+    except Exception:
+        return jsonify(status=500),500
+
 
 @app.route('/exam/create/<id>', methods=['GET'])
 def exam_list(id):

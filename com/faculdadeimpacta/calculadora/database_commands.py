@@ -76,7 +76,7 @@ def Verify_User(cpf,id):
 def Pacient_List(id):
     connection = Connection_String()
     cursor = connection.cursor()
-    sql = "SELECT id_paciente,nome_paciente,cpf_paciente from tb_paciente where id_usuario = %s"
+    sql = "SELECT * from tb_paciente where id_usuario = %s"
     cursor.execute(sql,(id,))
     rows = cursor.fetchall()
     pacient_list = rows_to_dict(cursor.description, rows)

@@ -43,6 +43,17 @@ def update_patient():
         return jsonify(status=500),500
 
 
+@app.route('/patient/create/<id>', methods=['GET'])
+def get_patient(id):
+    try:
+        result = {}
+        user_id = int(id)
+        result['pacientes'] = database_commands.Pacient_List(user_id)
+        return jsonify(result), 200
+    except Exception:
+        return jsonify(status=500),500
+
+
 @app.route('/exam/create/<id>', methods=['GET'])
 def exam_list(id):
     try:

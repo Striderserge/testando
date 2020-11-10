@@ -45,6 +45,24 @@ def Create_User(dados):
         return status
 
 
+def Delete_Patient(dados):
+    status = {}
+    try:
+        connection = Connection_String()
+        cursor = connection.cursor()
+        sql = "UPDATE tb_paciente SET  status = %s where id_paciente = %s"
+        cursor.execute(sql,(str(dados['status']), int(dados['id_paciente'])))
+        connection.commit()
+        status['status'] = 0
+    except Exception:
+        connection.rollback()
+        status['status'] = 400
+    finally:
+        cursor.close()
+        connection.close()
+        return status
+
+
 def Update_User(dados):
     status = {}
     try:

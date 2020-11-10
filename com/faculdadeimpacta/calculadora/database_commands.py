@@ -86,8 +86,8 @@ def Update_Patient(dados):
     try:
         connection = Connection_String()
         cursor = connection.cursor()
-        sql = "UPDATE tb_paciente SET  nome_paciente = %s, email_paciente = %s, cpf_paciente = %s, rg_paciente = %s, telefone_paciente = %s, endereco_paciente = %s, dt_nascimento = %s, sexo_paciente = %s where id_paciente = %s"
-        cursor.execute(sql,(str(dados['nome_paciente']), str(dados['email_paciente']), int(dados['cpf_paciente']), str(dados['rg_paciente']), str(dados['telefone_paciente']), str(dados['endereco_paciente']), str(dados['dt_nascimento']), str(dados['sexo_paciente']), int(dados['id_paciente'])))
+        sql = "UPDATE tb_paciente SET  nome_paciente = %s, email_paciente = %s, cpf_paciente = %s, rg_paciente = %s, telefone_paciente = %s, endereco_paciente = %s, dt_nascimento = %s, sexo_paciente = %s, status = %s where id_paciente = %s"
+        cursor.execute(sql,(str(dados['nome_paciente']), str(dados['email_paciente']), int(dados['cpf_paciente']), str(dados['rg_paciente']), str(dados['telefone_paciente']), str(dados['endereco_paciente']), str(dados['dt_nascimento']), str(dados['sexo_paciente']),str(dados['status']), int(dados['id_paciente'])))
         connection.commit()
         status['status'] = 0
     except Exception:

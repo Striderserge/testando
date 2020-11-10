@@ -34,7 +34,7 @@ def update_patient():
     try:
         update_pacient = request.json
         #if new_pacient['cpf'] == 387: #-- apenas para teste offline
-        status= database_commands.Update_User(update_pacient)     
+        status= database_commands.Update_Patient(update_pacient)     
         if status['status'] == 400:
             return jsonify(status),400
         else:
@@ -50,6 +50,18 @@ def get_patient(id):
         user_id = int(id)
         result['pacientes'] = database_commands.Pacient_List(user_id)
         return jsonify(result), 200
+    except Exception:
+        return jsonify(status=500),500
+
+@app.route('/user/edit', methods=['PUT'])
+def update_user():
+    try:
+        update_user = request.json
+        status= database_commands.Update_User(update_user)     
+        if status['status'] == 400:
+            return jsonify(status),400
+        else:
+            return jsonify(status),200
     except Exception:
         return jsonify(status=500),500
 

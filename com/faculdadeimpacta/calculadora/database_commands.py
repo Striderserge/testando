@@ -32,7 +32,7 @@ def Create_User(dados):
     try:
         connection = Connection_String()
         cursor = connection.cursor()
-        sql = "INSERT INTO tb_paciente(id_usuario, nome_paciente, email_paciente, cpf_paciente, rg_paciente, telefone_paciente, endereco_paciente, dt_nascimento, sexo_paciente, st_paciente) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        sql = "INSERT INTO tb_paciente(id_usuario, nome_paciente, email_paciente, cpf_paciente, rg_paciente, telefone_paciente, endereco_paciente, dt_nascimento, sexo_paciente, st_paciente) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cursor.execute(sql,(int(dados['id_usuario']), str(dados['nome_paciente']), str(dados['email_paciente']), int(dados['cpf_paciente']), str(dados['rg_paciente']), str(dados['telefone_paciente']), str(dados['endereco_paciente']), str(dados['dt_nascimento']), str(dados['sexo_paciente']), str(dados['st_paciente'])))
         connection.commit()
         status['status'] = 0

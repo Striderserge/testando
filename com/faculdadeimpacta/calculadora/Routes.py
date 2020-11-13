@@ -97,7 +97,7 @@ def exam_create():
     try:
         exam = request.json
         database_commands.Create_Exam(exam)
-        mailing_system.Send_Email(exam)
+        #mailing_system.Send_Email(exam)
         return jsonify(status = 0), 200
     except Exception:
         return jsonify(status=500),500

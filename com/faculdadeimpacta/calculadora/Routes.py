@@ -84,7 +84,6 @@ def exam_list(id):
     try:
         result = {}
         user_id = int(id)
-        #user_id = request.json['id_usuario']
         result['pacientes'] = database_commands.Pacient_List(user_id)
         result['exames'] = database_commands.Exam_List()
         return jsonify(result), 200
@@ -97,7 +96,7 @@ def exam_create():
     try:
         exam = request.json
         database_commands.Create_Exam(exam)
-        #mailing_system.Send_Email(exam)
+        mailing_system.Send_Email(exam)
         return jsonify(status = 0), 200
     except Exception:
         return jsonify(status=500),500

@@ -136,8 +136,8 @@ def Exam_List():
 def Create_Exam(exam):
     connection = Connection_String()
     cursor = connection.cursor()
-    sql = 'INSERT INTO tb_agendamento(dt_agendamento, id_exame, id_paciente, id_usuario) VALUES (%s, %s, %s, %s)'
-    cursor.execute(sql,(exam['dt_agendamento'], exam['id_exame'], exam['id_paciente'], exam['id_usuario']))
+    sql = 'INSERT INTO tb_agendamento(dt_agendamento, id_exame, id_paciente, id_usuario, convenio, unidade_agendamento) VALUES (%s, %s, %s, %s, %s, %s)'
+    cursor.execute(sql,(exam['dt_agendamento'], exam['id_exame'], exam['id_paciente'], exam['id_usuario'], exam['convenio'], exam['unidade_agendamento']))
     connection.commit()
     cursor.close()
     connection.close()

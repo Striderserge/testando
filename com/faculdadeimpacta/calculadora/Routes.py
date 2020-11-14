@@ -110,8 +110,8 @@ def appointment_by_user(id):
         #user_id = request.args['id_usuario']
         result = database_commands.Appointment_by_Id(user_id)
         for item in result:
-            data = parse(result[0]['dt_agendamento'])
-            result[item]['dt_agendamento'] = data.date()+""+data.time()
+            data = parse(result[item]['dt_agendamento'])
+            result[item]['dt_agendamento'] = data.date()
         return jsonify(result), 200
     except Exception:
         return jsonify(status=500),500

@@ -175,7 +175,7 @@ def Appointment_by_Id(userId):
         SELECT 
 	            ag.id_agendamento, 
 	            ex.nome_exame, 
-	            ag.dt_agendamento, 
+	            DATE_FORMAT(ag.dt_agendamento,"%Y-%m-%d %H:%i:%s") as dt_agendamento, 
 	            pt.nome_paciente
             FROM  
 	            tb_agendamento AS ag INNER JOIN 

@@ -14,7 +14,8 @@ data = [
 for item in data:
         dt = parse(item['dt_agendamento'])
         final = str(dt.date()) +' '+str(dt.time())
-        print(final)
+        item['dt_agendamento'] = final
+print(data)
 
 '''
 data_e_hora = datetime.strptime(data, '%Y-%m-%d %H:%M:%S')

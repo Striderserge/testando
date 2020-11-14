@@ -108,6 +108,9 @@ def appointment_by_user(id):
         user_id = int(id)
         #user_id = request.args['id_usuario']
         result = database_commands.Appointment_by_Id(user_id)
+        data_e_hora = datetime.strptime(result['dt_agendamento'], '%Y-%m-%d %H:%M:%S')
+        fuso_horario = timezone("America/Sao_Paulo")
+        result['dt_agendamento'] = data_e_hora.astimezone(fuso_horario)
         return jsonify(result), 200
     except Exception:
         return jsonify(status=500),500

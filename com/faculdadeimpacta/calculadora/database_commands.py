@@ -136,13 +136,10 @@ def Exam_List():
 
 
 def Create_Exam(exam):
-    data_e_hora = datetime.strptime(exam['dt_agendamento'], "%Y-%m-%d %H:%M:%S")
-    fuso_horario = timezone("America/Sao_Paulo")
-    data_final = data_e_hora.astimezone(fuso_horario)
     connection = Connection_String()
     cursor = connection.cursor()
     sql = "INSERT INTO tb_agendamento(dt_agendamento, id_exame, id_paciente, id_usuario, convenio, unidade_agendamento) VALUES (%s, %s, %s, %s, %s, %s)"
-    cursor.execute(sql,(data_final, exam['id_exame'], exam['id_paciente'], exam['id_usuario'], exam['convenio'], exam['unidade_agendamento']))
+    cursor.execute(sql,(exam['dt_agendamento'], exam['id_exame'], exam['id_paciente'], exam['id_usuario'], exam['convenio'], exam['unidade_agendamento']))
     connection.commit()
     cursor.close()
     connection.close()
@@ -190,6 +187,9 @@ def Appointment_by_Id(userId):
     cursor.execute(sql,(userId,))
     rows = cursor.fetchall()
     appointment_list = rows_to_dict(cursor.description, rows)
+    data_e_hora = datetime.strptime(appointment_list['dt_agendamento'], "%Y-%m-%d %H:%M:%S")
+    fuso_horario = timezone("America/Sao_Paulo")
+    appointment_list['dt_agendamento'] = data_e_hora.astimezone(fuso_horario)
     cursor.close()
     connection.close()
     return appointment_list

@@ -186,9 +186,6 @@ def Appointment_by_Id(userId):
         """
     cursor.execute(sql,(userId,))
     rows = cursor.fetchall()
-    data_e_hora = datetime.strptime(rows[2], "%Y-%m-%d %H:%M:%S")
-    fuso_horario = timezone("America/Sao_Paulo")
-    rows[2] = data_e_hora.astimezone(fuso_horario)
     appointment_list = rows_to_dict(cursor.description, rows)
     cursor.close()
     connection.close()

@@ -3,8 +3,7 @@ import requests, json
 import database_commands
 import mailing_system
 from flask_cors import CORS
-from datetime import datetime,timezone,timedelta
-import pytz
+from dateutil.parser import parse
 
 class User_Error(Exception):
     pass
@@ -110,10 +109,9 @@ def appointment_by_user(id):
         user_id = int(id)
         #user_id = request.args['id_usuario']
         result = database_commands.Appointment_by_Id(user_id)
-        '''for item in result:
-            data_e_hora = datetime.strptime(result[item]['dt_agendamento'], '%Y-%m-%d %H:%M:%S')
-            fuso_horario = timezone("America/Sao_Paulo")
-            result[item]['dt_agendamento'] = data_e_hora.astimezone(fuso_horario)'''
+        for item in result:
+            data = parse(result[0]['dt_agendamento'])
+            result[item]['dt_agendamento'] = data.date()+""+data.time()
         return jsonify(result), 200
     except Exception:
         return jsonify(status=500),500

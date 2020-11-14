@@ -136,8 +136,8 @@ def Exam_List():
 
 
 def Create_Exam(exam):
-    data_e_hora = datetime.strptime(exam['dt_agendamento'], "%Y/%m/%d %H:%M:%S")
-    fuso_horario = timezone("America/Sao Paulo")
+    data_e_hora = datetime.strptime(exam['dt_agendamento'], "%Y-%m-%d %H:%M:%S")
+    fuso_horario = timezone("America/Sao_Paulo")
     data_final = data_e_hora.astimezone(fuso_horario)
     connection = Connection_String()
     cursor = connection.cursor()

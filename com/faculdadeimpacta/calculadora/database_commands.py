@@ -1,4 +1,6 @@
 import mysql.connector
+from datetime import datetime,timezone,timedelta
+import pytz
 
 
 
@@ -134,10 +136,13 @@ def Exam_List():
 
 
 def Create_Exam(exam):
+    data_e_hora = datetime.strptime(exam['dt_agendamento'], "%Y/%m/%d %H:%M:%S")
+    fuso_horario = timezone("America/Sao Paulo")
+    data_final = data_e_hora.astimezone(fuso_horario)
     connection = Connection_String()
     cursor = connection.cursor()
-    sql = "INSERT INTO tb_agendamento(CONVERT_TZ(dt_agendamento,'+00:00','-03:00'), id_exame, id_paciente, id_usuario, convenio, unidade_agendamento) VALUES (%s, %s, %s, %s, %s, %s)"
-    cursor.execute(sql,(exam['dt_agendamento'], exam['id_exame'], exam['id_paciente'], exam['id_usuario'], exam['convenio'], exam['unidade_agendamento']))
+    sql = "INSERT INTO tb_agendamento(dt_agendamento, id_exame, id_paciente, id_usuario, convenio, unidade_agendamento) VALUES (%s, %s, %s, %s, %s, %s)"
+    cursor.execute(sql,(data_final, exam['id_exame'], exam['id_paciente'], exam['id_usuario'], exam['convenio'], exam['unidade_agendamento']))
     connection.commit()
     cursor.close()
     connection.close()

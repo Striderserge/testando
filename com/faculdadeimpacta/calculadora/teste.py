@@ -8,10 +8,10 @@ data_e_hora = datetime.strptime(data, '%Y-%m-%d %H:%M:%S')
 fuso_horario = timezone("America/Sao_Paulo")
 data_final = data_e_hora.astimezone(fuso_horario)
 print(data_final)
-lista = {}
-lista['a'] = 4
-lista['a'] = 7
-print(lista['a'])
+lista = [0,1]
+lista[0] = 4
+lista[0] = 7
+print(lista[0])
 
 '''
 url = " https://test-bild.herokuapp.com/login?email_usuario=test.bild@gmail.com&senha_usuario=1234"
